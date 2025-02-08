@@ -2,9 +2,19 @@ import json
 import pandas as pd
 import s3fs
 from confluent_kafka import Consumer
+from pyspark.sql import SparkSession
 from datetime import datetime
 
-# 🎯 Configuration de Kafka Consumer
+# 🎯 Configuration de Spark
+spark = SparkSession.builder \
+    .appName("Kafka Transactions Processing") \
+    .config("spark.jars.packages", 
+            "org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.0,"
+            "com.amazonaws:aws-java-sdk-bundle:1.12.262,"
+            "org.apache.hadoop:hadoop-aws:3.4.1") \
+    .getOrCreate()
+
+# 📦 Configuration de Kafka Consumer
 kafka_config = {
     "bootstrap.servers": "127.0.0.1:9092",
     "group.id": "transactions-group",
