@@ -1,15 +1,17 @@
 from pyspark.sql import SparkSession
 import os
 
-# Remplacer 
-hadoop_aws_jar = os.path.expanduser("~/jars/hadoop-aws-3.4.1")
-aws_sdk_jar = os.path.expanduser("~/jars/aws-java-sdk-bundle-1.12.262")
-aws_java_sdk = os.path.expanduser("~/jars/aws-java-sdk-1.12.780.jar")
+# Chemins des JARs dans le dossier Spark
+spark_home = "C:/Spark/jars"
+hadoop_aws_jar = os.path.join(spark_home, "hadoop-aws-3.3.4.jar")
+aws_sdk_jar = os.path.join(spark_home, "aws-java-sdk-bundle-2.20.66.jar")
+aws_sdk_core_jar = os.path.join(spark_home, "aws-java-sdk-core-2.20.66.jar")
+aws_sdk_s3_jar = os.path.join(spark_home, "aws-java-sdk-s3-2.20.66.jar")
 
 # Création de la session Spark avec MinIO et les jars nécessaires
 spark = SparkSession.builder \
     .appName("MinioTest") \
-    .config("spark.jars", f"{hadoop_aws_jar},{aws_sdk_jar},{aws_java_sdk}") \
+    .config("spark.jars", f"{hadoop_aws_jar},{aws_sdk_jar},{aws_sdk_core_jar},{aws_sdk_s3_jar}") \
     .getOrCreate()
 
 # Configuration de MinIO
